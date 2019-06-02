@@ -1,0 +1,1 @@
+g++ -DDEBUG -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++14 -o code code.cc

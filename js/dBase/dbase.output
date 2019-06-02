@@ -1,0 +1,1391 @@
+Terminale, die in Grammatik unbenutzt sind
+
+   CMD_FALSE
+   CMD_TRUE
+
+
+Zustand 49 Konflikte: 1 Schiebe/Reduziere
+Zustand 70 Konflikte: 4 Schiebe/Reduziere
+Zustand 71 Konflikte: 4 Schiebe/Reduziere
+Zustand 72 Konflikte: 4 Schiebe/Reduziere
+Zustand 73 Konflikte: 4 Schiebe/Reduziere
+Zustand 87 Konflikte: 1 Schiebe/Reduziere
+
+
+Grammatik
+
+    0 $accept: program $end
+
+    1 program: stmt_cmds program
+    2        | %empty
+
+    3 stmt_cmds: CMD_END_HEADER
+    4          | CMD_LOCAL local_list
+
+    5 $@1: %empty
+
+    6 stmt_cmds: CMD_PARAMETER $@1 parameter_list
+    7          | id '=' CMD_NEW id '(' ')'
+    8          | id '=' expr
+
+    9 $@2: %empty
+
+   10 stmt_cmds: if_stmt $@2 if_full
+
+   11 $@3: %empty
+
+   12 $@4: %empty
+
+   13 stmt_cmds: if_stmt CMD_EQ $@3 expr $@4 if_full
+
+   14 $@5: %empty
+
+   15 $@6: %empty
+
+   16 stmt_cmds: if_stmt CMD_GT $@5 expr $@6 if_full
+
+   17 $@7: %empty
+
+   18 $@8: %empty
+
+   19 stmt_cmds: if_stmt CMD_LW $@7 expr $@8 if_full
+
+   20 $@9: %empty
+
+   21 $@10: %empty
+
+   22 stmt_cmds: if_stmt CMD_GE $@9 expr $@10 if_full
+
+   23 $@11: %empty
+
+   24 $@12: %empty
+
+   25 stmt_cmds: if_stmt CMD_LE $@11 expr $@12 if_full
+
+   26 $@13: %empty
+
+   27 $@14: %empty
+
+   28 stmt_cmds: if_stmt CMD_NE $@13 expr $@14 if_full
+   29          | class_object
+
+   30 $@15: %empty
+
+   31 if_stmt: CMD_IF $@15 expr
+
+   32 if_full: CMD_ENDIF
+   33        | stmt_cmds CMD_ENDIF
+
+   34 $@16: %empty
+
+   35 if_full: stmt_cmds CMD_ELSE $@16 CMD_ENDIF
+
+   36 $@17: %empty
+
+   37 if_full: CMD_ELSE $@17 CMD_ENDIF
+
+   38 $@18: %empty
+
+   39 if_full: CMD_ELSE $@18 stmt_cmds CMD_ENDIF
+
+   40 $@19: %empty
+
+   41 if_full: stmt_cmds CMD_ELSE $@19 stmt_cmds CMD_ENDIF
+
+   42 local_list: id
+   43           | local_list ',' local_list
+
+   44 parameter_list: id
+
+   45 $@20: %empty
+
+   46 parameter_list: parameter_list ',' $@20 parameter_list
+
+   47 expr: id
+   48     | CMD_NUMBER
+   49     | expr '+' expr
+   50     | expr '-' expr
+   51     | expr '*' expr
+   52     | expr '/' expr
+
+   53 $@21: %empty
+
+   54 expr: '(' $@21 expr ')'
+
+   55 $@22: %empty
+
+   56 class_object: CMD_CLASS id CMD_OF id $@22 class_object_body CMD_ENDCLASS
+
+   57 $@23: %empty
+
+   58 class_object: CMD_CLASS id $@23 class_object_body CMD_ENDCLASS
+
+   59 class_object_body: %empty
+
+   60 id: CMD_ID
+
+
+Terminale und die Regeln, in denen sie verwendet werden
+
+$end (0) 0
+'(' (40) 7 54
+')' (41) 7 54
+'*' (42) 51
+'+' (43) 49
+',' (44) 43 46
+'-' (45) 50
+'/' (47) 52
+'=' (61) 7 8
+error (256)
+CMD_FALSE (258)
+CMD_TRUE (259)
+CMD_NUMBER (260) 48
+CMD_ID (261) 60
+CMD_END_HEADER (262) 3
+CMD_PARAMETER (263) 6
+CMD_LOCAL (264) 4
+CMD_NEW (265) 7
+CMD_IF (266) 31
+CMD_ELSE (267) 35 37 39 41
+CMD_ENDIF (268) 32 33 35 37 39 41
+CMD_CLASS (269) 56 58
+CMD_OF (270) 56
+CMD_ENDCLASS (271) 56 58
+CMD_EQ (272) 13
+CMD_NE (273) 28
+CMD_LE (274) 25
+CMD_GE (275) 22
+CMD_LW (276) 19
+CMD_GT (277) 16
+
+
+Nicht-Terminal und die Regeln, in denen sie verwendet werden
+
+$accept (31)
+    auf der linken Seite: 0
+program (32)
+    auf der linken Seite: 1 2, auf der rechten Seite: 0 1
+stmt_cmds (33)
+    auf der linken Seite: 3 4 6 7 8 10 13 16 19 22 25 28 29, auf der rechten Seite:
+    1 33 35 39 41
+$@1 (34)
+    auf der linken Seite: 5, auf der rechten Seite: 6
+$@2 (35)
+    auf der linken Seite: 9, auf der rechten Seite: 10
+$@3 (36)
+    auf der linken Seite: 11, auf der rechten Seite: 13
+$@4 (37)
+    auf der linken Seite: 12, auf der rechten Seite: 13
+$@5 (38)
+    auf der linken Seite: 14, auf der rechten Seite: 16
+$@6 (39)
+    auf der linken Seite: 15, auf der rechten Seite: 16
+$@7 (40)
+    auf der linken Seite: 17, auf der rechten Seite: 19
+$@8 (41)
+    auf der linken Seite: 18, auf der rechten Seite: 19
+$@9 (42)
+    auf der linken Seite: 20, auf der rechten Seite: 22
+$@10 (43)
+    auf der linken Seite: 21, auf der rechten Seite: 22
+$@11 (44)
+    auf der linken Seite: 23, auf der rechten Seite: 25
+$@12 (45)
+    auf der linken Seite: 24, auf der rechten Seite: 25
+$@13 (46)
+    auf der linken Seite: 26, auf der rechten Seite: 28
+$@14 (47)
+    auf der linken Seite: 27, auf der rechten Seite: 28
+if_stmt (48)
+    auf der linken Seite: 31, auf der rechten Seite: 10 13 16 19 22
+    25 28
+$@15 (49)
+    auf der linken Seite: 30, auf der rechten Seite: 31
+if_full (50)
+    auf der linken Seite: 32 33 35 37 39 41, auf der rechten Seite:
+    10 13 16 19 22 25 28
+$@16 (51)
+    auf der linken Seite: 34, auf der rechten Seite: 35
+$@17 (52)
+    auf der linken Seite: 36, auf der rechten Seite: 37
+$@18 (53)
+    auf der linken Seite: 38, auf der rechten Seite: 39
+$@19 (54)
+    auf der linken Seite: 40, auf der rechten Seite: 41
+local_list (55)
+    auf der linken Seite: 42 43, auf der rechten Seite: 4 43
+parameter_list (56)
+    auf der linken Seite: 44 46, auf der rechten Seite: 6 46
+$@20 (57)
+    auf der linken Seite: 45, auf der rechten Seite: 46
+expr (58)
+    auf der linken Seite: 47 48 49 50 51 52 54, auf der rechten Seite:
+    8 13 16 19 22 25 28 31 49 50 51 52 54
+$@21 (59)
+    auf der linken Seite: 53, auf der rechten Seite: 54
+class_object (60)
+    auf der linken Seite: 56 58, auf der rechten Seite: 29
+$@22 (61)
+    auf der linken Seite: 55, auf der rechten Seite: 56
+$@23 (62)
+    auf der linken Seite: 57, auf der rechten Seite: 58
+class_object_body (63)
+    auf der linken Seite: 59, auf der rechten Seite: 56 58
+id (64)
+    auf der linken Seite: 60, auf der rechten Seite: 7 8 42 44 47 56
+    58
+
+
+Zustand 0
+
+    0 $accept: . program $end
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    $default  reduziere mit Regel 2 (program)
+
+    program       gehe zu Zustand 7 über
+    stmt_cmds     gehe zu Zustand 8 über
+    if_stmt       gehe zu Zustand 9 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 1
+
+   60 id: CMD_ID .
+
+    $default  reduziere mit Regel 60 (id)
+
+
+Zustand 2
+
+    3 stmt_cmds: CMD_END_HEADER .
+
+    $default  reduziere mit Regel 3 (stmt_cmds)
+
+
+Zustand 3
+
+    6 stmt_cmds: CMD_PARAMETER . $@1 parameter_list
+
+    $default  reduziere mit Regel 5 ($@1)
+
+    $@1  gehe zu Zustand 12 über
+
+
+Zustand 4
+
+    4 stmt_cmds: CMD_LOCAL . local_list
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    local_list  gehe zu Zustand 13 über
+    id          gehe zu Zustand 14 über
+
+
+Zustand 5
+
+   31 if_stmt: CMD_IF . $@15 expr
+
+    $default  reduziere mit Regel 30 ($@15)
+
+    $@15  gehe zu Zustand 15 über
+
+
+Zustand 6
+
+   56 class_object: CMD_CLASS . id CMD_OF id $@22 class_object_body CMD_ENDCLASS
+   58             | CMD_CLASS . id $@23 class_object_body CMD_ENDCLASS
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    id  gehe zu Zustand 16 über
+
+
+Zustand 7
+
+    0 $accept: program . $end
+
+    $end  schiebe und gehe zu Zustand 17 über
+
+
+Zustand 8
+
+    1 program: stmt_cmds . program
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    $default  reduziere mit Regel 2 (program)
+
+    program       gehe zu Zustand 18 über
+    stmt_cmds     gehe zu Zustand 8 über
+    if_stmt       gehe zu Zustand 9 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 9
+
+   10 stmt_cmds: if_stmt . $@2 if_full
+   13          | if_stmt . CMD_EQ $@3 expr $@4 if_full
+   16          | if_stmt . CMD_GT $@5 expr $@6 if_full
+   19          | if_stmt . CMD_LW $@7 expr $@8 if_full
+   22          | if_stmt . CMD_GE $@9 expr $@10 if_full
+   25          | if_stmt . CMD_LE $@11 expr $@12 if_full
+   28          | if_stmt . CMD_NE $@13 expr $@14 if_full
+
+    CMD_EQ  schiebe und gehe zu Zustand 19 über
+    CMD_NE  schiebe und gehe zu Zustand 20 über
+    CMD_LE  schiebe und gehe zu Zustand 21 über
+    CMD_GE  schiebe und gehe zu Zustand 22 über
+    CMD_LW  schiebe und gehe zu Zustand 23 über
+    CMD_GT  schiebe und gehe zu Zustand 24 über
+
+    $default  reduziere mit Regel 9 ($@2)
+
+    $@2  gehe zu Zustand 25 über
+
+
+Zustand 10
+
+   29 stmt_cmds: class_object .
+
+    $default  reduziere mit Regel 29 (stmt_cmds)
+
+
+Zustand 11
+
+    7 stmt_cmds: id . '=' CMD_NEW id '(' ')'
+    8          | id . '=' expr
+
+    '='  schiebe und gehe zu Zustand 26 über
+
+
+Zustand 12
+
+    6 stmt_cmds: CMD_PARAMETER $@1 . parameter_list
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    parameter_list  gehe zu Zustand 27 über
+    id              gehe zu Zustand 28 über
+
+
+Zustand 13
+
+    4 stmt_cmds: CMD_LOCAL local_list .
+   43 local_list: local_list . ',' local_list
+
+    ','  schiebe und gehe zu Zustand 29 über
+
+    $default  reduziere mit Regel 4 (stmt_cmds)
+
+
+Zustand 14
+
+   42 local_list: id .
+
+    $default  reduziere mit Regel 42 (local_list)
+
+
+Zustand 15
+
+   31 if_stmt: CMD_IF $@15 . expr
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 32 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 16
+
+   56 class_object: CMD_CLASS id . CMD_OF id $@22 class_object_body CMD_ENDCLASS
+   58             | CMD_CLASS id . $@23 class_object_body CMD_ENDCLASS
+
+    CMD_OF  schiebe und gehe zu Zustand 34 über
+
+    $default  reduziere mit Regel 57 ($@23)
+
+    $@23  gehe zu Zustand 35 über
+
+
+Zustand 17
+
+    0 $accept: program $end .
+
+    $default  annehmen
+
+
+Zustand 18
+
+    1 program: stmt_cmds program .
+
+    $default  reduziere mit Regel 1 (program)
+
+
+Zustand 19
+
+   13 stmt_cmds: if_stmt CMD_EQ . $@3 expr $@4 if_full
+
+    $default  reduziere mit Regel 11 ($@3)
+
+    $@3  gehe zu Zustand 36 über
+
+
+Zustand 20
+
+   28 stmt_cmds: if_stmt CMD_NE . $@13 expr $@14 if_full
+
+    $default  reduziere mit Regel 26 ($@13)
+
+    $@13  gehe zu Zustand 37 über
+
+
+Zustand 21
+
+   25 stmt_cmds: if_stmt CMD_LE . $@11 expr $@12 if_full
+
+    $default  reduziere mit Regel 23 ($@11)
+
+    $@11  gehe zu Zustand 38 über
+
+
+Zustand 22
+
+   22 stmt_cmds: if_stmt CMD_GE . $@9 expr $@10 if_full
+
+    $default  reduziere mit Regel 20 ($@9)
+
+    $@9  gehe zu Zustand 39 über
+
+
+Zustand 23
+
+   19 stmt_cmds: if_stmt CMD_LW . $@7 expr $@8 if_full
+
+    $default  reduziere mit Regel 17 ($@7)
+
+    $@7  gehe zu Zustand 40 über
+
+
+Zustand 24
+
+   16 stmt_cmds: if_stmt CMD_GT . $@5 expr $@6 if_full
+
+    $default  reduziere mit Regel 14 ($@5)
+
+    $@5  gehe zu Zustand 41 über
+
+
+Zustand 25
+
+   10 stmt_cmds: if_stmt $@2 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 45 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 26
+
+    7 stmt_cmds: id '=' . CMD_NEW id '(' ')'
+    8          | id '=' . expr
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    CMD_NEW     schiebe und gehe zu Zustand 46 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 47 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 27
+
+    6 stmt_cmds: CMD_PARAMETER $@1 parameter_list .
+   46 parameter_list: parameter_list . ',' $@20 parameter_list
+
+    ','  schiebe und gehe zu Zustand 48 über
+
+    $default  reduziere mit Regel 6 (stmt_cmds)
+
+
+Zustand 28
+
+   44 parameter_list: id .
+
+    $default  reduziere mit Regel 44 (parameter_list)
+
+
+Zustand 29
+
+   43 local_list: local_list ',' . local_list
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    local_list  gehe zu Zustand 49 über
+    id          gehe zu Zustand 14 über
+
+
+Zustand 30
+
+   48 expr: CMD_NUMBER .
+
+    $default  reduziere mit Regel 48 (expr)
+
+
+Zustand 31
+
+   54 expr: '(' . $@21 expr ')'
+
+    $default  reduziere mit Regel 53 ($@21)
+
+    $@21  gehe zu Zustand 50 über
+
+
+Zustand 32
+
+   31 if_stmt: CMD_IF $@15 expr .
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 31 (if_stmt)
+
+
+Zustand 33
+
+   47 expr: id .
+
+    $default  reduziere mit Regel 47 (expr)
+
+
+Zustand 34
+
+   56 class_object: CMD_CLASS id CMD_OF . id $@22 class_object_body CMD_ENDCLASS
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    id  gehe zu Zustand 55 über
+
+
+Zustand 35
+
+   58 class_object: CMD_CLASS id $@23 . class_object_body CMD_ENDCLASS
+
+    $default  reduziere mit Regel 59 (class_object_body)
+
+    class_object_body  gehe zu Zustand 56 über
+
+
+Zustand 36
+
+   13 stmt_cmds: if_stmt CMD_EQ $@3 . expr $@4 if_full
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 57 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 37
+
+   28 stmt_cmds: if_stmt CMD_NE $@13 . expr $@14 if_full
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 58 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 38
+
+   25 stmt_cmds: if_stmt CMD_LE $@11 . expr $@12 if_full
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 59 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 39
+
+   22 stmt_cmds: if_stmt CMD_GE $@9 . expr $@10 if_full
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 60 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 40
+
+   19 stmt_cmds: if_stmt CMD_LW $@7 . expr $@8 if_full
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 61 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 41
+
+   16 stmt_cmds: if_stmt CMD_GT $@5 . expr $@6 if_full
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 62 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 42
+
+   37 if_full: CMD_ELSE . $@17 CMD_ENDIF
+   39        | CMD_ELSE . $@18 stmt_cmds CMD_ENDIF
+
+    CMD_ENDIF  reduziere mit Regel 36 ($@17)
+    $default   reduziere mit Regel 38 ($@18)
+
+    $@17  gehe zu Zustand 63 über
+    $@18  gehe zu Zustand 64 über
+
+
+Zustand 43
+
+   32 if_full: CMD_ENDIF .
+
+    $default  reduziere mit Regel 32 (if_full)
+
+
+Zustand 44
+
+   33 if_full: stmt_cmds . CMD_ENDIF
+   35        | stmt_cmds . CMD_ELSE $@16 CMD_ENDIF
+   41        | stmt_cmds . CMD_ELSE $@19 stmt_cmds CMD_ENDIF
+
+    CMD_ELSE   schiebe und gehe zu Zustand 65 über
+    CMD_ENDIF  schiebe und gehe zu Zustand 66 über
+
+
+Zustand 45
+
+   10 stmt_cmds: if_stmt $@2 if_full .
+
+    $default  reduziere mit Regel 10 (stmt_cmds)
+
+
+Zustand 46
+
+    7 stmt_cmds: id '=' CMD_NEW . id '(' ')'
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    id  gehe zu Zustand 67 über
+
+
+Zustand 47
+
+    8 stmt_cmds: id '=' expr .
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 8 (stmt_cmds)
+
+
+Zustand 48
+
+   46 parameter_list: parameter_list ',' . $@20 parameter_list
+
+    $default  reduziere mit Regel 45 ($@20)
+
+    $@20  gehe zu Zustand 68 über
+
+
+Zustand 49
+
+   43 local_list: local_list . ',' local_list
+   43           | local_list ',' local_list .
+
+    ','  schiebe und gehe zu Zustand 29 über
+
+    ','       [reduziere mit Regel 43 (local_list)]
+    $default  reduziere mit Regel 43 (local_list)
+
+
+Zustand 50
+
+   54 expr: '(' $@21 . expr ')'
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 69 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 51
+
+   49 expr: expr '+' . expr
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 70 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 52
+
+   50 expr: expr '-' . expr
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 71 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 53
+
+   51 expr: expr '*' . expr
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 72 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 54
+
+   52 expr: expr '/' . expr
+
+    CMD_NUMBER  schiebe und gehe zu Zustand 30 über
+    CMD_ID      schiebe und gehe zu Zustand 1 über
+    '('         schiebe und gehe zu Zustand 31 über
+
+    expr  gehe zu Zustand 73 über
+    id    gehe zu Zustand 33 über
+
+
+Zustand 55
+
+   56 class_object: CMD_CLASS id CMD_OF id . $@22 class_object_body CMD_ENDCLASS
+
+    $default  reduziere mit Regel 55 ($@22)
+
+    $@22  gehe zu Zustand 74 über
+
+
+Zustand 56
+
+   58 class_object: CMD_CLASS id $@23 class_object_body . CMD_ENDCLASS
+
+    CMD_ENDCLASS  schiebe und gehe zu Zustand 75 über
+
+
+Zustand 57
+
+   13 stmt_cmds: if_stmt CMD_EQ $@3 expr . $@4 if_full
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 12 ($@4)
+
+    $@4  gehe zu Zustand 76 über
+
+
+Zustand 58
+
+   28 stmt_cmds: if_stmt CMD_NE $@13 expr . $@14 if_full
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 27 ($@14)
+
+    $@14  gehe zu Zustand 77 über
+
+
+Zustand 59
+
+   25 stmt_cmds: if_stmt CMD_LE $@11 expr . $@12 if_full
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 24 ($@12)
+
+    $@12  gehe zu Zustand 78 über
+
+
+Zustand 60
+
+   22 stmt_cmds: if_stmt CMD_GE $@9 expr . $@10 if_full
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 21 ($@10)
+
+    $@10  gehe zu Zustand 79 über
+
+
+Zustand 61
+
+   19 stmt_cmds: if_stmt CMD_LW $@7 expr . $@8 if_full
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 18 ($@8)
+
+    $@8  gehe zu Zustand 80 über
+
+
+Zustand 62
+
+   16 stmt_cmds: if_stmt CMD_GT $@5 expr . $@6 if_full
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    $default  reduziere mit Regel 15 ($@6)
+
+    $@6  gehe zu Zustand 81 über
+
+
+Zustand 63
+
+   37 if_full: CMD_ELSE $@17 . CMD_ENDIF
+
+    CMD_ENDIF  schiebe und gehe zu Zustand 82 über
+
+
+Zustand 64
+
+   39 if_full: CMD_ELSE $@18 . stmt_cmds CMD_ENDIF
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 83 über
+    if_stmt       gehe zu Zustand 9 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 65
+
+   35 if_full: stmt_cmds CMD_ELSE . $@16 CMD_ENDIF
+   41        | stmt_cmds CMD_ELSE . $@19 stmt_cmds CMD_ENDIF
+
+    CMD_ENDIF  reduziere mit Regel 34 ($@16)
+    $default   reduziere mit Regel 40 ($@19)
+
+    $@16  gehe zu Zustand 84 über
+    $@19  gehe zu Zustand 85 über
+
+
+Zustand 66
+
+   33 if_full: stmt_cmds CMD_ENDIF .
+
+    $default  reduziere mit Regel 33 (if_full)
+
+
+Zustand 67
+
+    7 stmt_cmds: id '=' CMD_NEW id . '(' ')'
+
+    '('  schiebe und gehe zu Zustand 86 über
+
+
+Zustand 68
+
+   46 parameter_list: parameter_list ',' $@20 . parameter_list
+
+    CMD_ID  schiebe und gehe zu Zustand 1 über
+
+    parameter_list  gehe zu Zustand 87 über
+    id              gehe zu Zustand 28 über
+
+
+Zustand 69
+
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+   54     | '(' $@21 expr . ')'
+
+    ')'  schiebe und gehe zu Zustand 88 über
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+
+Zustand 70
+
+   49 expr: expr . '+' expr
+   49     | expr '+' expr .
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    '+'       [reduziere mit Regel 49 (expr)]
+    '-'       [reduziere mit Regel 49 (expr)]
+    '*'       [reduziere mit Regel 49 (expr)]
+    '/'       [reduziere mit Regel 49 (expr)]
+    $default  reduziere mit Regel 49 (expr)
+
+
+Zustand 71
+
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   50     | expr '-' expr .
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    '+'       [reduziere mit Regel 50 (expr)]
+    '-'       [reduziere mit Regel 50 (expr)]
+    '*'       [reduziere mit Regel 50 (expr)]
+    '/'       [reduziere mit Regel 50 (expr)]
+    $default  reduziere mit Regel 50 (expr)
+
+
+Zustand 72
+
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   51     | expr '*' expr .
+   52     | expr . '/' expr
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    '+'       [reduziere mit Regel 51 (expr)]
+    '-'       [reduziere mit Regel 51 (expr)]
+    '*'       [reduziere mit Regel 51 (expr)]
+    '/'       [reduziere mit Regel 51 (expr)]
+    $default  reduziere mit Regel 51 (expr)
+
+
+Zustand 73
+
+   49 expr: expr . '+' expr
+   50     | expr . '-' expr
+   51     | expr . '*' expr
+   52     | expr . '/' expr
+   52     | expr '/' expr .
+
+    '+'  schiebe und gehe zu Zustand 51 über
+    '-'  schiebe und gehe zu Zustand 52 über
+    '*'  schiebe und gehe zu Zustand 53 über
+    '/'  schiebe und gehe zu Zustand 54 über
+
+    '+'       [reduziere mit Regel 52 (expr)]
+    '-'       [reduziere mit Regel 52 (expr)]
+    '*'       [reduziere mit Regel 52 (expr)]
+    '/'       [reduziere mit Regel 52 (expr)]
+    $default  reduziere mit Regel 52 (expr)
+
+
+Zustand 74
+
+   56 class_object: CMD_CLASS id CMD_OF id $@22 . class_object_body CMD_ENDCLASS
+
+    $default  reduziere mit Regel 59 (class_object_body)
+
+    class_object_body  gehe zu Zustand 89 über
+
+
+Zustand 75
+
+   58 class_object: CMD_CLASS id $@23 class_object_body CMD_ENDCLASS .
+
+    $default  reduziere mit Regel 58 (class_object)
+
+
+Zustand 76
+
+   13 stmt_cmds: if_stmt CMD_EQ $@3 expr $@4 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 90 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 77
+
+   28 stmt_cmds: if_stmt CMD_NE $@13 expr $@14 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 91 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 78
+
+   25 stmt_cmds: if_stmt CMD_LE $@11 expr $@12 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 92 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 79
+
+   22 stmt_cmds: if_stmt CMD_GE $@9 expr $@10 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 93 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 80
+
+   19 stmt_cmds: if_stmt CMD_LW $@7 expr $@8 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 94 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 81
+
+   16 stmt_cmds: if_stmt CMD_GT $@5 expr $@6 . if_full
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_ELSE        schiebe und gehe zu Zustand 42 über
+    CMD_ENDIF       schiebe und gehe zu Zustand 43 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 44 über
+    if_stmt       gehe zu Zustand 9 über
+    if_full       gehe zu Zustand 95 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 82
+
+   37 if_full: CMD_ELSE $@17 CMD_ENDIF .
+
+    $default  reduziere mit Regel 37 (if_full)
+
+
+Zustand 83
+
+   39 if_full: CMD_ELSE $@18 stmt_cmds . CMD_ENDIF
+
+    CMD_ENDIF  schiebe und gehe zu Zustand 96 über
+
+
+Zustand 84
+
+   35 if_full: stmt_cmds CMD_ELSE $@16 . CMD_ENDIF
+
+    CMD_ENDIF  schiebe und gehe zu Zustand 97 über
+
+
+Zustand 85
+
+   41 if_full: stmt_cmds CMD_ELSE $@19 . stmt_cmds CMD_ENDIF
+
+    CMD_ID          schiebe und gehe zu Zustand 1 über
+    CMD_END_HEADER  schiebe und gehe zu Zustand 2 über
+    CMD_PARAMETER   schiebe und gehe zu Zustand 3 über
+    CMD_LOCAL       schiebe und gehe zu Zustand 4 über
+    CMD_IF          schiebe und gehe zu Zustand 5 über
+    CMD_CLASS       schiebe und gehe zu Zustand 6 über
+
+    stmt_cmds     gehe zu Zustand 98 über
+    if_stmt       gehe zu Zustand 9 über
+    class_object  gehe zu Zustand 10 über
+    id            gehe zu Zustand 11 über
+
+
+Zustand 86
+
+    7 stmt_cmds: id '=' CMD_NEW id '(' . ')'
+
+    ')'  schiebe und gehe zu Zustand 99 über
+
+
+Zustand 87
+
+   46 parameter_list: parameter_list . ',' $@20 parameter_list
+   46               | parameter_list ',' $@20 parameter_list .
+
+    ','  schiebe und gehe zu Zustand 48 über
+
+    ','       [reduziere mit Regel 46 (parameter_list)]
+    $default  reduziere mit Regel 46 (parameter_list)
+
+
+Zustand 88
+
+   54 expr: '(' $@21 expr ')' .
+
+    $default  reduziere mit Regel 54 (expr)
+
+
+Zustand 89
+
+   56 class_object: CMD_CLASS id CMD_OF id $@22 class_object_body . CMD_ENDCLASS
+
+    CMD_ENDCLASS  schiebe und gehe zu Zustand 100 über
+
+
+Zustand 90
+
+   13 stmt_cmds: if_stmt CMD_EQ $@3 expr $@4 if_full .
+
+    $default  reduziere mit Regel 13 (stmt_cmds)
+
+
+Zustand 91
+
+   28 stmt_cmds: if_stmt CMD_NE $@13 expr $@14 if_full .
+
+    $default  reduziere mit Regel 28 (stmt_cmds)
+
+
+Zustand 92
+
+   25 stmt_cmds: if_stmt CMD_LE $@11 expr $@12 if_full .
+
+    $default  reduziere mit Regel 25 (stmt_cmds)
+
+
+Zustand 93
+
+   22 stmt_cmds: if_stmt CMD_GE $@9 expr $@10 if_full .
+
+    $default  reduziere mit Regel 22 (stmt_cmds)
+
+
+Zustand 94
+
+   19 stmt_cmds: if_stmt CMD_LW $@7 expr $@8 if_full .
+
+    $default  reduziere mit Regel 19 (stmt_cmds)
+
+
+Zustand 95
+
+   16 stmt_cmds: if_stmt CMD_GT $@5 expr $@6 if_full .
+
+    $default  reduziere mit Regel 16 (stmt_cmds)
+
+
+Zustand 96
+
+   39 if_full: CMD_ELSE $@18 stmt_cmds CMD_ENDIF .
+
+    $default  reduziere mit Regel 39 (if_full)
+
+
+Zustand 97
+
+   35 if_full: stmt_cmds CMD_ELSE $@16 CMD_ENDIF .
+
+    $default  reduziere mit Regel 35 (if_full)
+
+
+Zustand 98
+
+   41 if_full: stmt_cmds CMD_ELSE $@19 stmt_cmds . CMD_ENDIF
+
+    CMD_ENDIF  schiebe und gehe zu Zustand 101 über
+
+
+Zustand 99
+
+    7 stmt_cmds: id '=' CMD_NEW id '(' ')' .
+
+    $default  reduziere mit Regel 7 (stmt_cmds)
+
+
+Zustand 100
+
+   56 class_object: CMD_CLASS id CMD_OF id $@22 class_object_body CMD_ENDCLASS .
+
+    $default  reduziere mit Regel 56 (class_object)
+
+
+Zustand 101
+
+   41 if_full: stmt_cmds CMD_ELSE $@19 stmt_cmds CMD_ENDIF .
+
+    $default  reduziere mit Regel 41 (if_full)

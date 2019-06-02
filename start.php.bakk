@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="author" content="Jens Kallup [paule32]">
+    <meta name="copyright" content="Jens Kallup">
+    <meta name="keywords" content="kallup, css, html, theme, desktop, windows, xp">
+    <meta name="description" content="A Windows XP desktop in HTML, CSS and JavaScript">
+    <meta name="robots" content="index,follow">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/defaultxp.css" title="User Defined Style">
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <title>RAD - Rapid Application Development</title>
+    <link   type='text/css' rel="stylesheet" href="/css/cog.css"/>
+
+    <link   type="text/css" rel="alternate stylesheet" href="/css/defaultxp.css"  media="screen" title="Default XP Theme">
+    <link   type="text/css" rel="alternate stylesheet" href="/css/classic.css"    media="screen" title="Classic Windows Theme">
+    <link   type="text/css" rel="alternate stylesheet" href="/css/sustenance.css" media="screen" title="Sustenance Theme">
+    <link   type="text/css" rel="alternate stylesheet" href="/css/longhorn.css"   media="screen" title="Longhorn Theme">
+
+    <link   type='text/css' rel='stylesheet' href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"/>
+    <link   type="text/css" rel="stylesheet" href="/css/jquery-layout.css"/>
+    <link   type="text/css" rel="stylesheet" href="/css/jquery-ui.css"/>
+
+    <script type="text/javascript" src="/js/clock.js"></script>
+    <script type="text/javascript" src="/js/startmenu.js"></script>
+    <script type="text/javascript" src="/js/xp-common.js"></script>
+
+    <script type="text/javascript" src="/js/dom-drag.js"></script>
+    <script type="text/javascript" src="/js/dBase/dbase.js"></script>
+    <script type="text/javascript" src="/js/dBase/dBaseCommon.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/themes/color.css">
+
+    <link   type='text/css' rel="stylesheet" href="/front.css"/>
+    <link   type='text/css' rel="stylesheet" href="/inc/body.css"/>
+    <link   type='text/css' rel="stylesheet" href="/inc/footer.css"/>
+
+    <script type="text/javascript" src="/js/jquery-min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+
+    <link   type="text/css" rel="stylesheet" href=/css/fq-ui.extendeddialog.css"/>
+    <script type="text/javascript" src="/js/fq-ui.extendeddialog.js"></script>
+
+    <script type="text/javascript" src="/js/loader.js"></script>
+
+    <script type="text/javascript" src="/js/ace/src-noconflict/ace.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/ace/src-noconflict/ext-language_tools.js" charset="utf-8"></script>
+</head>
+<body>
+    <div id="loader" class="overlay-loader">
+        <div class="loader-background color-flip">PLEASE WAIT ...</div>
+        <img class="loader-icon spinning-cog" src="/img/cogs/cog08.svg" data-cog="cog08">
+    </div>
+
+
+<div class="easyui-panel"
+style="
+position:absolute;
+width:100%;
+height:100%;
+overflow:auto;
+background-image:
+background:#004E98 url(/img/xpdefault/background.jpg) no-repeat 0 100%;
+min-height:100%;
+">
+    <div id="my_desktop">
+        <div id="my_computer"       > <img src="/img/xpdefault/my_computer.png"       width="60px" class="desktop_icon, ui-widget-content"/> <br> My Computer  </div>
+        <div id="my_documents"      > <img src="/img/xpdefault/my_documents.png"      width="60px" class="desktop_icon, ui-widget-content"/> <br> My Documents </div>
+        <div id="my_recycle_bin"    > <img src="/img/xpdefault/my_recycle_bin.png"    width="60px" class="desktop_icon. ui-widget-content"/> <br> My Recycle Bin  </div>
+        <div id="my_network_places" > <img src="/img/xpdefault/my_network_places.png" width="60px" class="desktop_icon, ui-widget-content"/> <br> My Network Places </div>
+    </div>
+
+    <div class="easyui-window" title="Hello to dBase4Web 1.0" data-options="width:1100,height:610,left:40,top:30,inline:true,closecls:'c1'">
+        <div class="easyui-panel" style="padding:5px;">
+            <a href="#" class="easyui-menubutton" data-options="menu:'#mm1'">File</a>
+            <a href="#" class="easyui-menubutton" data-options="menu:'#mm2'">Edit</a>
+            <a href="#" class="easyui-menubutton" data-options="menu:'#mm3'">Help</a>
+        </div>
+        <div id="mm1" style="width:150px;">
+            <div>New Project</div>
+            <div>New ...</div>
+            <div>Exit</div>
+        </div>
+        <div id="mm2" style="width:150px;">
+            <div data-options="iconCls:'icon-undo'">Undo</div>
+            <div data-options="iconCls:'icon-redo'">Redo</div>
+            <div class="menu-sep"></div>
+            <div>Cut</div>
+            <div>Copy</div>
+            <div>Paste</div>
+        </div>
+        <div id="mm3" style="width:100px;">
+            <div>Help</div>
+            <div>Update</div>
+            <div>About</div>
+        </div>
+        <div id="tt" class="easyui-tabs" style="width:99%;height:78px;">
+            <div title="Standard" style="padding:10px">
+                <img src="/img/tmouse.png" class="tabitem image"/><div class="hint">chooser</div>
+                <img src="/img/tmainmenu.png" class="tabitem image"/><div class="hint">TMainMenu</div>
+                <img src="/img/tpopupmenu.png" class="tabitem image"/><div class="hint">TPopUpMenu</div>
+                <img src="/img/tbutton.png" class="tabitem image"/><div class="hint">TButton</div>
+                <img src="/img/tlabel.png" class="tabitem image"/><div class="hint">TLabel</div>
+                <img src="/img/tedit.png" class="tabitem image"/><div class="hint">TEdit</div>
+                <img src="/img/tmemo.png" class="tabitem image"/><div class="hint">TMemo</div>
+                <img src="/img/ttogglebox.png" class="tabitem image"/><div class="hint">TToggleBox</div>
+            </div>
+            <div title="Additional" style="padding:10px">
+                <img src="/img/tmouse.png" class="tabitem image"/><div class="hint">chooser</div>
+            </div>
+        </div>
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'west',split:true" style="width:235px;padding:10px">
+                <div id="tt" class="easyui-tabs" style="width:240px;height:420px">
+                    <div title="Properties" style="padding:5px">
+                        <div class="easyui-panel" style="padding:0px" data-options="fit:true,border:false">
+                            <table id="pg" class="easyui-propertygrid" style="width:200px height:400px;" data-options="
+                                url:'/res/data1.json',
+                                method:'get',
+                                showGroup:true,
+                                columns: mycolumns,
+                                scrollbarSize:0">
+                            </table>
+                            <script>
+                                var mycolumns = [[
+                                    {field:'name' ,title:'Properties',width:100,sortable:true},
+                                    {field:'value',title:'Events',width:100,resizable:false}
+                                ]];
+                            </script>
+                        </div>
+                    </div>
+                    <div title="Events" style="padding:10px"></div>
+                </div>
+            </div>
+            <div data-options="region:'east',split:true" style="width:190px;padding:5px">
+                <div>Inspector</div>
+                <div class="easyui-panel" style="padding:0px" data-options="fit:true,border:false">
+                    <ul class="easyui-tree">
+                        <li data-options="state:'closed'"> <span>Classes   </span> </li>
+                        <li data-options="state:'closed'"> <span>Functions </span> </li>
+                        <li data-options="state:'closed'"> <span>Elements  </span> </li>
+                    </ul>
+                </div>
+            </div>
+            <div data-options="region:'center'" style="padding:10px">
+                <div id="tt" class="easyui-tabs" style="width:630px;height:450px">
+                    <div title="File-1" style="padding:10px">
+                        <div id="editorpane1"></div>
+                    </div>
+                    <div title="File-1: Designer" style="padding:10px">
+                        <div id="mausi">
+                        <canvas id="painter"></canvas>
+                        </div>
+                    </div>
+                    <div title="File-3" data-options="closable:true" style="padding:10px">
+                        This is the help content.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="application">
+    	<applet code="/tmp/Application.class" width="740px" height="400">
+            <script type="text/javascript">
+                $("#application").height(0).width(0);
+                allLoaded = 2;
+            </script>
+    	</applet>
+	    <object codetype="application/java"
+	        classid = "java:Application.class"
+	        width   = "740"
+	        height  = "400">
+	    </object>
+    </div>
+
+    <div id="taskbar">
+        <div id="start">
+            <h2 id="startbutton"><a href="#" title="Click here to begin"><span id="startbuttongraphic">
+                </span>Start</a>
+            </h2>
+            <div id="startmenu">
+                <h3><img src="img/default_icon.jpg" alt="Logo" width="48px" height="48px">KALLUP</h3>
+                <div id="recentprograms">
+                    <dl id="internetbrowser">
+                        <dt>Internet</dt>
+                        <dd><a href="http://www.mozilla.org/products/firefox/" title="Opens your internet browser">Mozilla Firefox</a></dd>
+                    </dl>
+                    <dl id="emailclient">
+                        <dt>E-mail</dt>
+                        <dd><a href="http://www.mozilla.org/products/thunderbird/" title="Opens your email program so you can send or read a message.">Mozilla Thunderbird</a></dd>
+                    </dl>
+                    <ul id="recent">
+                        <li id="mediaplayer"><a href="#" title="">Windows Media Player</a></li>
+                        <li><a href="switcher.php?set=defaultxp" title="Change to the default XP style">XP Default Style</a></li>
+                        <li><a href="switcher.php?set=classic" title="Change to the classic windows style, from Windows 95, 98 and 2000">Classic Style</a></li>
+                        <li><a href="switcher.php?set=longhorn" title="Change to the Longhorn style for XP">Longhorn XP Style</a></li>
+                        <li><a href="switcher.php?set=sustenance" title="Change to the &quot;Sustenance&quot; style.">Sustenance Style</a></li>
+                        <li><a href="#" title="Coming Soon: Mac OSX style">OSX Style</a></li>
+                    </ul>
+                </div>
+                <div id="myplaces" style="position:absolute;height:50px;">
+                    <ul id="my">
+                        <li id="myrecent"><a href="#" id="myrecent_link">My Recent Documents</a>
+                            <ul id="myrecent_menu">
+                                <li class="textdoc"><a href="#" title="Location: C:\windows">document.txt</a></li>
+                                <li class="textdoc"><a href="#" title="Location: C:\Documents and Settings\All Users">untitled.txt</a></li>
+                            </ul>
+                        </li>
+                        <li id="mymusic"><a href="#" title="Opens the My Music folder, where you can store music and other audio files.">My Music</a></li>
+                        <li id="mycomp"><a href="#" title="Gives access to, and information about, the disk drives, cameras, scanners, and other hardware connected to your computer.">My Computer</a></li>
+                        <li id="mynetwork"><a href="#" title="Gives access to, and information about, folders and files on other computers.">My Network Places</a></li>
+                    </ul>
+                    <ul>
+                        <li id="controlpanel"><a href="#" title="Provides options for you to customize the appearance and functionality of your computer, add or remove programs, and set up network connections and user accounts."><em>C</em>ontrol Panel</a></li>
+                        <li id="printers"><a href="#" title="Add, remove, and configure local and network printers and fax printers.">Printers and Faxes</a></li>
+                    </ul>
+                    <ul>
+                        <li id="helpsupport"><a href="#" title="Opens a central location for Help topics, tutorials, troubleshooting, and other support services."><em>H</em>elp and Support</a></li>
+                        <li id="search"><a href="http://www.google.com" title="Opens a window where you can pick search options and work with search results."><em>S</em>earch</a></li>
+                        <li id="run"><a href="#" title="Opens a program, folder, document or Web site."><em>R</em>un</a></li>
+                    </ul>
+                </div>
+                <ul id="allprograms">
+                    <li><a href="#" title="" id="allprograms_link">All Programs</a>
+                        <ul id="allprograms_menu">
+	                        <li id="winupdate"><a href="#" title="">Windows Update</a></li>
+	                        <li class="folder"><a href="#" title="">Accessories</a></li>
+	                        <li class="folder"><a href="#" title="">Games</a></li>
+	                        <li class="folder"><a href="#" title="">Startup</a></li>
+
+	                        <li><a href="#" title="">Internet Explorer</a></li>
+	                        <li><a href="#" title="">MSN Explorer</a></li>
+	                        <li><a href="#" title="">Windows Messenger</a></li>
+	                        <li><a href="#" title="">Outlook Express</a></li>
+	                        <li><a href="#" title="">Remote Assistance</a></li>
+	                        <li><a href="#" title="">Windows Media Player</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul id="close">
+                    <li id="logoff"><a href="#" title="Provides options for closing programs and loggin off, or for leaving your programs running and switching to another user."><em>L</em>og Off</a></li>
+                    <li id="shutdown"><a href="#" title="Provides options for turning off or restarting your computer, or for activating Stand By or Hibernate modes.">Sh<em>u</em>t Down</a></li>
+                </ul>
+            </div>
+            <div id="run_dialog">
+                <h2 id="run_dialog_handle"><span></span>Run</h2>
+                <ul class="window_control">
+                    <li class="min"><a href="#" title=""><span></span>Minimise</a></li>
+                    <li class="max"><a href="#" title=""><span></span>Maximise</a></li>
+                    <li class="close" id="run_box_close"><a href="#" title=""><span></span>Close</a></li>
+                </ul>
+                <div>
+                    <p>Type the name of a program, folder, document, or Internet resource, and Windows will open it for you.</p>
+                    <form action="./" method="post">
+                        <fieldset>
+                            <legend>Run Dialog</legend>
+                            <label for="run_open">Open:</label>
+                            <input type="text" name="run_open" id="run_open" value="edit">
+                            <ul class="buttons">
+                                <li><span></span><input type="submit" value="OK"></li>
+                                <li id="run_box_cancel"><span></span><input type="reset" value="Cancel"></li>
+                                <li><span></span><input type="button" value="Browse"></li>
+                            </ul>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <h3>Quick Launch</h3>
+
+            <ul id="quicklaunch">
+                <li id="quick_desktop"><a href="#" title="Show Desktop"><span></span>Show Desktop</a></li>
+                <li id="quick_firefox"><a href="http://www.mozilla.org/products/firefox/" title="Firefox"><span></span>Firefox</a></li>
+                <li id="quick_winamp"><a href="http://www.winamp.com" title="Winamp 5.08"><span></span>Winamp</a></li>
+            </ul>
+
+            <ul id="openprograms">
+                <li class="openmirc"><a href="http://www.cssirc.com" title="mIRC - [#css [154][+nstl 404]: cssirc.com">mIRC - [#css [154][...</a></li>
+                <li class="openwinamp"><a href="http://www.winamp.com" title="Winamp 5.08 *** ">Winamp 5.08 *** </a></li>
+            </ul>
+
+            <h3>System Tray</h3>
+
+            <ul id="systemtray">
+                <li id="winamp"><a href="http://www.winamp.com" title="Winamp 5.08"><span></span>Winamp</a></li>
+                <li id="msn"><a href="http://messenger.msn.com" title="MSN Messenger (BETA) - Signed In"><span></span>MSN</a></li>
+                <li id="lan"><a href="#" title="Local Area Connection"><span></span>LAN</a></li>
+            </ul>
+
+            <p id="clock">00:00</p>
+        </div>
+    </div>
+  </div>
+    <script type="text/javascript">
+        var theRunHandle = document.getElementById("run_dialog_handle");
+        var theRunRoot   = document.getElementById("run_dialog");
+        Drag.init(theRunHandle, theRunRoot);
+
+        var theDisplayHandle = document.getElementById("display_properties_handle");
+        var theDisplayRoot   = document.getElementById("display_properties");
+        Drag.init(theDisplayHandle, theDisplayRoot);
+    </script>
+</div>
+
+<style>
+#my_computer       { z-index: 1000000000; position: fixed; top:  20px; background: hsla(350,50%,50%,0.3); padding:10px; width: 132px; height: 100px; }
+#my_documents      { position: fixed; top: 140px; background: hsla(350,50%,50%,0.3); padding:10px; width: 132px; height: 100px; }
+#my_network_places { position: fixed; top: 260px; background: hsla(350,50%,50%,0.3); padding:10px; width: 132px; height: 100px; }
+#my_recycle_bin    { position: fixed; top: 380px; background: hsla(350,50%,50%,0.3); padding:10px; width: 132px; height: 100px; }
+</style>
+
+<script>
+var lastdialog = null;
+var i = 1;
+$(function () {
+    $("#my_computer").draggable();
+    $("#my_documents").draggable();
+    $("#my_recycle_bin").draggable();
+    $("#my_network_places").draggable();
+
+    $("#my_computer").on("click", function (event) {
+        event.preventDefault();
+        lastdialog =
+        '<div id="win1" class="easyui-window" title="My Computer: ' + i + '" ' +
+        'data-options="width:200px,height:260px,left:40px,top:30px,inline:true,closecls:"c1">' +
+        '</div>';
+        $("#my_desktop").append(lastdialog);
+
+console.log($("#my_desktop").html());
+$(".win1").show();
+        i++;
+    });
+
+    $('#btnMin').on('click', function (event) {
+        event.preventDefault();
+        if (lastdialog != null) {
+            lastdialog.extendeddialog('minimize');
+        }
+    });
+
+    $('#btnMax').on('click', function (event) {
+        event.preventDefault();
+        if (lastdialog != null) {
+            lastdialog.extendeddialog('maximize');
+        }
+    });
+
+    $('#btnRes').on('click', function (event) {
+        event.preventDefault();
+        if (lastdialog != null) {
+            lastdialog.extendeddialog('restore');
+        }
+    });
+
+    $('#btnClo').on('click', function (event) {
+        event.preventDefault();
+        if (lastdialog != null) {
+            lastdialog.extendeddialog('close');
+        }
+    });
+
+    $('#btnDes').on('click', function (event) {
+        event.preventDefault();
+        if (lastdialog != null) {
+            lastdialog.extendeddialog('destroy');
+            lastdialog = null;
+        }
+    });
+});
+var getOptions = function () {
+    return {
+        minimizable: true,
+        maximizable: true,
+        resizeOnDlbclick: true
+    };
+}
+</script>
+
+</body>
+</html>

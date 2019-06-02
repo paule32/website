@@ -1,0 +1,114 @@
+<style>
+.login_de {
+background-image:url("login_de1.png");
+background-size:cover;
+cursor:pointer;
+}
+.login_de:hover {
+background-image:url("login_de2.png");
+background-size:cover;
+cursor:pointer;
+}
+.login_en {
+background-image:url("login_en1.png");
+background-size:cover;
+cursor:pointer;
+}
+.login_en:hover {
+background-image:url("login_en2.png");
+background-size:cover;;
+cursor:pointer;
+}
+.register_de {
+background-image:url("register_de1.png");
+background-size:0px 0px 100px 32px;
+background-repeat:no-repeat;
+height:51px;
+cursor:pointer;
+}
+.register_de:hover {
+background-image:url("register_de2.png");
+background-size:0px 0px 100px 32px;
+background-repeat:no-repeat;
+height:51px;
+cursor:pointer;
+}
+.register_en {
+background-image:url("register_en1.png");
+background-size:0px 0px 100px 32px;
+background-repeat:no-repeat;
+height:51px;
+cursor:pointer;
+}
+.register_en:hover {
+background-image:url("register_en2.png");
+background-size:0px 0px 100px 32px;
+background-repeat:no-repeat;
+height:51px;
+cursor:pointer;
+}
+</style>
+<!--script>
+function checkPass()
+{
+/*
+    var url_1 = './docheader.php';
+    var url_a = '?topic=login';
+    var url_b = '&lang=' + $.url.attr('lang');
+    var url_c = '&un=' + $("#un").val;
+    var url_d = '&up=' + $("#up").val;
+
+    var url_e = url_a + url_b + url_c + url_d;
+    alert(url_d);*/
+}
+</script-->
+<div style="background-color:yellow;">
+  <hr>
+    <b>dBase4Web (c) Jens Kallup - non-profit</b>
+  <hr>
+</div>
+<center>
+dwfdsfsdf
+<?php
+//session_destroy();
+//    session_start();
+
+//    $_SESSION['username'] = "";
+//    $_SESSION['userpass'] = "";
+
+    $path = __DIR__ . '/locales.php';
+    include $path;
+
+    echo $LOCALES_ARRAY[$_GET['lang']][1];
+?>
+ssssss
+<p>
+<table width="40%" border="0">
+<tr><td>
+    <form action="./login.php">
+	<table border="2">
+        <tr><td>
+            <?php echo $LOCALES_ARRAY[$_GET['lang']][2];?>
+        </td><td>
+            <input type="text" id="un" maxlength="20">
+        </td></tr>
+        <tr><td>
+            <?php echo $LOCALES_ARRAY[$_GET['lang']][3];?>
+        </td><td>
+            <input type="password" id="up" maxlength="20">
+        </td></tr>
+        <tr><td onClick="checkPass();" class="login_'<?php . $_GET['lang'] . '">';?><br><br>
+        </td></tr>
+        </table>
+    </form>
+    <p>
+    <table><tr><td width="180px">
+        <?php echo $LOCALES_ARRAY[$_GET['lang']][4];?><br>
+	<div class="register_<?php echo $_GET['lang'];?>"></div>
+        </td></tr>
+    </table>
+    <p>
+</td></tr>
+</table>
+</p>
+</center>

@@ -1,0 +1,370 @@
+%{
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <sys/types.h>
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <cstdint>
+#include <string>
+#include <vector>
+using namespace std;
+
+extern int line_row;
+extern int line_col;
+
+extern void yyset_in(FILE*);
+extern void yyset_out(FILE*);
+
+extern FILE* yyin;
+extern FILE* yyout;
+
+std::string str_exec;
+std::string str_para;
+std::string str_expr;
+
+std::vector<std::string> str_pvec(255);  // parameter vector (items)
+std::vector<std::string>::const_iterator pvec_i;
+
+std::string str_dummy;
+
+#ifndef false
+# define false 0
+# define true  1
+#endif
+bool end_header = false;
+
+int yylex(); 
+int yyerror(const char *p) {
+    printf("error at %d:%d: %s\n",
+        line_row,
+        line_col,p);
+    return 1;
+}
+
+void emit_ifcode(int mode, const std::string &str)
+{
+    if (mode == 0) {
+        str_exec.append(str_expr);
+        str_expr.clear();
+
+	if (str.size() > 1)
+	str_exec.append(str);
+    }
+
+    if (mode == 1) str_exec.append("){\n");		else
+    if (mode == 2) str_exec.append("} else {\n");	else
+    if (mode == 3) str_exec.append("}\n");		else
+    if (mode == 4) str_exec.append(") {\n}\n");
+}
+
+// | if_stmt        { emit_ifcode(1); }                stmt_cmds CMD_ENDIF { emit_ifcode(3); }
+// | if_stmt        { emit_ifcode(1); } CMD_ELSE       stmt_cmds CMD_ENDIF { emit_ifcode(3);     
+%}
+
+//-- SYMBOL SEMANTIC VALUES -----------------------------
+%union {
+  uint32_t val_int32;
+  char*    val_charp;
+};
+
+%start program
+//-- GRAMMAR RULES ---------------------------------------
+
+%token CMD_FALSE
+%token CMD_TRUE
+
+%token <val_int32> CMD_NUMBER
+%token <val_charp> CMD_ID
+
+%token CMD_END_HEADER
+%token CMD_PARAMETER
+%token CMD_LOCAL
+%token CMD_NEW
+%token CMD_IF
+%token CMD_ELSE
+%token CMD_ENDIF
+%token CMD_CLASS
+%token CMD_OF
+%token CMD_ENDCLASS
+
+%token CMD_EQ CMD_NE
+%token CMD_LE CMD_GE
+%token CMD_LW CMD_GT
+
+%type <val_charp> id
+%%
+
+program
+    : stmt_cmds program
+    | /* empty */
+    ;
+
+stmt_cmds
+    : CMD_END_HEADER {
+	end_header = true;
+    }
+    | CMD_LOCAL local_list
+    | CMD_PARAMETER
+	 {
+	    if (end_header == true) {
+		str_exec.append("\n\t}\n\tmain_proc(");
+	    }
+	 }
+    parameter_list
+	 {
+	    if (end_header == true) {
+		str_exec.append(")\n\t{");
+	    }
+	 }
+    | id '=' CMD_NEW id '(' ')'
+	 {
+	    str_exec.append("\n\t\tthis.");
+	    str_exec.append($1);
+	    str_exec.append(" = new ");
+	    str_exec.append($4);
+	    str_exec.append("(221221);");
+	 }
+    | id '=' expr
+	 {
+	    str_exec.append(" = ");
+	    str_exec.append(str_expr);
+	    str_exec.append(";\n");
+	 }
+    | if_stmt                                         { emit_ifcode(0,") {\n");   } if_full
+    | if_stmt CMD_EQ { emit_ifcode(0," == " ); } expr { emit_ifcode(1,str_dummy); } if_full
+    | if_stmt CMD_GT { emit_ifcode(0," > "  ); } expr { emit_ifcode(1,str_dummy); } if_full
+    | if_stmt CMD_LW { emit_ifcode(0," < "  ); } expr { emit_ifcode(1,str_dummy); } if_full
+    | if_stmt CMD_GE { emit_ifcode(0," >= " ); } expr { emit_ifcode(1,str_dummy); } if_full
+    | if_stmt CMD_LE { emit_ifcode(0," <= " ); } expr { emit_ifcode(1,str_dummy); } if_full
+    | if_stmt CMD_NE { emit_ifcode(0," != " ); } expr { emit_ifcode(1,str_dummy); } if_full
+    | class_object
+    ;
+if_stmt
+    : CMD_IF { str_exec.append("\nif ("); } expr
+    ;
+if_full
+    :                                                            CMD_ENDIF { emit_ifcode(4,str_dummy); }
+    | stmt_cmds                                                  CMD_ENDIF { emit_ifcode(3,str_dummy); }
+    | stmt_cmds CMD_ELSE { emit_ifcode(2,str_dummy); }           CMD_ENDIF { emit_ifcode(3,str_dummy); }
+    |           CMD_ELSE { emit_ifcode(2,str_dummy); }           CMD_ENDIF { emit_ifcode(4,str_dummy); }
+    |           CMD_ELSE { emit_ifcode(2,str_dummy); } stmt_cmds CMD_ENDIF { emit_ifcode(3,str_dummy); }
+    | stmt_cmds CMD_ELSE { emit_ifcode(2,str_dummy); } stmt_cmds CMD_ENDIF { emit_ifcode(3,str_dummy); }
+    ;
+
+local_list
+    : id
+	 {  //str_para.append("\n\t\tthis.");
+	    //str_para.append($1);
+	    //str_para.append(" = 0;");
+
+	    str_exec.append("\n\t\tthis.");
+	    str_exec.append($1);
+	    str_exec.append(" = 0;");
+         }
+    | local_list ',' local_list
+    ;
+
+parameter_list
+    : id {
+	    if (end_header == true) {
+		str_pvec.push_back($1);
+		str_exec.append($1);
+	    }
+	 }
+    | parameter_list ','
+	 {
+	    if (end_header == true) {
+		str_exec.append(", ");
+	    }
+	 }
+    parameter_list
+    ;
+
+expr
+    : id
+	{
+	//  str_localnew.append($1);
+	    str_expr.append($1);
+	}
+    | CMD_NUMBER
+	{
+	    std::string str = std::to_string($1);
+	//  str_exec.append(str);
+	    str_expr.append(str);
+	}
+    | expr '+'     expr { str_expr.append(" + "); }
+    | expr '-'     expr { str_expr.append(" - "); }
+    | expr '*'     expr { str_expr.append(" * "); }
+    | expr '/'     expr { str_expr.append(" / "); }
+    | '('               { str_expr.append(" ( "); } expr
+      ')'               { str_expr.append(" ) "); }
+    ;
+
+class_object
+    : CMD_CLASS id CMD_OF id
+	{   str_exec.append("\n\t\tclass ");
+	    str_exec.append($2);
+	    str_exec.append(" extends ");
+	    str_exec.append($4);
+	    str_exec.append(" {");
+	}
+    class_object_body CMD_ENDCLASS
+	{   str_exec.append("\n\t\t}\n");
+	}
+    | CMD_CLASS id
+	{   str_exec.append("\n\t\tclass ");
+	    str_exec.append($2);
+	    str_exec.append(" {");
+	}
+    class_object_body CMD_ENDCLASS
+	{   str_exec.append("\n\t\t}\n");
+	}
+    ;
+class_object_body
+    : /* empty */
+    ;
+
+id  : CMD_ID    { $$ = $1;
+	str_exec.append("this.");
+	str_exec.append($1);
+    }
+    ;
+
+%%
+//-- FUNCTION DEFINITIONS ---------------------------------
+
+int main(int argc, char **argv)
+{
+    int result = 0;
+
+    printf("// dbase2js (c) 2019 Jens Kallup\n");
+    printf("// all rights reserved.\n\n");
+
+    char * buffer = new char[strlen(argv[1])+5];
+    strcpy(buffer , argv[1]);
+    strcat(buffer , ".prg" );
+    if (!(yyin = fopen(buffer,"r"))) {
+        fprintf(stderr,"error: can't find input file, use default stdin.\n");
+        yyset_in(stdin);
+    }
+
+    char * puffer = new char[strlen(argv[1])+5];
+    strcpy(puffer , argv[1]);
+    strcat(puffer , ".pro" );
+    if (!(yyout = fopen(puffer,"w"))) {
+	fprintf(stderr,"error: can't open output file.\n");
+	delete puffer;
+	delete buffer;
+	return 1;
+    }
+
+nextstep:
+    std::string sc(argv[1]);
+    std::string para;
+
+    str_expr.clear();
+    str_exec.clear();
+
+    str_dummy.append(" ");
+
+    // -------------------------------------
+    // check, if called from cli or wif ...
+    // -------------------------------------
+    if (sc.size() > 11) {
+        sc = sc.erase(0,11);
+        sc = sc.replace(sc.find("."), 1, "_");
+    }
+
+    str_exec.append("class _Z");
+    str_exec.append(sc);
+    str_exec.append(" {\n\tconstructor(@parameter@) {@defaultparameter@");
+
+    result = yyparse();
+
+    if (result < 1)
+    {
+	for ( pvec_i = str_pvec.begin();
+	      pvec_i!= str_pvec.end();
+	    ++pvec_i) {
+	    if ((*pvec_i).size() > 0) {
+		if (pvec_i+1 == str_pvec.end())
+		{   str_para.append((*pvec_i));
+			para.append("\n\t\tthis.");
+			para.append((*pvec_i));
+			para.append(" = ");
+			para.append((*pvec_i));
+			para.append(";");
+		    break;
+		}   else {
+		    str_para.append((*pvec_i));
+		    str_para.append(", ");
+			para.append("\n\t\tthis.");
+			para.append((*pvec_i));
+			para.append(" = ");
+			para.append((*pvec_i));
+			para.append(";");
+		}
+	    }
+	}
+	std::string rp =
+	    str_exec.replace(
+	    str_exec.find("@parameter@) {"), 11,
+	    str_para);
+	str_exec = rp;
+	std::string rs =
+	    str_exec.replace(
+	    str_exec.find("@defaultparameter@"), 18, para);
+	str_exec = rs;
+	str_exec.append("\n\t}\n}\n");
+
+	if (end_header == true) {
+	    std::string str_temp;
+	    for ( pvec_i = str_pvec.begin();
+		  pvec_i!= str_pvec.end();
+		++pvec_i) {
+		if ((*pvec_i).size() > 0) {
+		    str_temp.append("var global_");
+		    str_temp.append((*pvec_i));
+		    str_temp.append(";\n");
+		}
+	    }
+
+	    str_temp.append(str_exec);
+	    str_exec = str_temp;
+	    str_exec.append("var _z");
+	    str_exec.append(sc);
+	    str_exec.append(" = new _Z");
+	    str_exec.append(sc);
+	    str_exec.append("(");
+
+	    for ( pvec_i = str_pvec.begin();
+		  pvec_i!= str_pvec.end();
+		++pvec_i) {
+		if ((*pvec_i).size() > 0) {
+		    str_exec.append("global_");
+		    str_exec.append((*pvec_i));
+		    if (pvec_i+1 != str_pvec.end())
+		    str_exec.append(", ");   else
+		    break;
+		}
+	    }
+	    str_exec.append(");\n");
+	}
+
+        fprintf(yyout,str_exec.c_str());
+        fprintf(stdout,"\nSUCCESS\n");
+    } else {
+        fprintf(stdout,"ERROR\n");
+    }
+
+    delete puffer;
+    delete buffer;
+
+    fclose(yyout);
+    fclose(yyin);
+    return result;
+}

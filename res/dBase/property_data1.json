@@ -1,0 +1,16 @@
+{"total":10,"rows":[
+
+    {"name":"TableName", "value":"",      "group":"Data Settings", "editor":"text" },
+    {"name":"SQL",       "value":"",      "group":"Data Settings", "editor":"text" },
+    {"name":"RowSet",    "value":"",      "group":"Data Settings", "editor":"text" },
+
+    {"name":"Height",    "value":"100",   "group":"Position",    "editor":"text" },
+    {"name":"Left",      "value":"100",   "group":"Position",    "editor":"text" },
+    {"name":"Top",       "value":"100",   "group":"Position",    "editor":"text" },
+    {"name":"Width",     "value":"100",   "group":"Position",    "editor":"text" },
+
+    {"name":"Title",     "value":"Caption",   "group":"Window",  "editor":"text" },
+    {"name":"Icon",      "value":"fav.ico",   "group":"Window",  "editor":"text" },
+
+    {"name":"URL",      "value":"http",   "group":"Misc",    "editor":"text" }
+]}

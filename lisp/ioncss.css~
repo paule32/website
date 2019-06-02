@@ -1,0 +1,19 @@
+.sidebar {
+float:left;
+width:100px;
+height:400px;
+background:#2c3e50;
+overflow:hidden;
+}
+.sidebar ul {
+margin:0px;
+padding:12px;
+}
+.sidebar ul li {
+display:block;
+width:100%;
+cursor:pointer;
+}
+,sidebar ul li a:hover {
+background:white;
+}

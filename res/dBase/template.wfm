@@ -1,0 +1,17 @@
+** END HEADER -- Diese Zeile nicht entfernen -- Press F2 to test
+//
+// Erstellt am 12.02.2019
+//
+parameter bModal
+local f
+f = new Form1()
+if (bModal)
+    f.mdi = false  // set non-mdi
+    f.ReadModal()
+else
+    f.Open()
+endif
+
+CLASS Form1 of FORM
+
+ENDCLASS

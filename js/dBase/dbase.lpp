@@ -1,0 +1,166 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+#include <ctype.h>
+#include <limits.h>
+#include <sys/types.h>
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <cstdint>
+#include <string>
+#include <regex>
+
+#define YYDEBUG 0
+
+#include "dbase.tab.hh"
+
+enum {
+    T_NUMBER = 4,
+    T_EQUAL = 5,
+};
+
+// Forward declerations ----------------------------------
+void Number();
+void HexaNumber();
+
+void count(void);
+
+extern std::string str_exec;
+extern int yyerror(const char*);
+
+int is_header = 0;
+
+int line_row  = 1;
+int line_col  = 1;
+%}
+
+%option noyywrap
+%option caseless
+
+DIGIT       [0-9\.]
+HEXALETTER  [a-fA-F]
+HEXANUMBER  [0][x](({DIGIT}|{HEXALETTER})+)
+NUM         {DIGIT}+
+WS          [ \t\n\r]*
+ID          [a-zA-Z_]+[a-zA-Z0-9_]*
+REMS1       ((\/\/.*)|(\&\&.*)|(\/\/.*\n*)|(\&\&.*\n*))*
+REMS2       ((\/\*\*\/)|(\/\*(\n*|.*)\*\/))*
+REMSER      {WS}{REMS1}|{REMS2}{WS}
+
+%x COMMENTS
+%%
+
+"** END HEADER".*   { count(); printf("END1\n"); return CMD_END_HEADER; }
+"** END HEADER".*\n { count(); printf("END2\n"); return CMD_END_HEADER; }
+
+\/\/(.*|.*\n)     { count(); BEGIN(INITIAL); }
+\&\&(.*|.*\n)     { count(); BEGIN(INITIAL); }
+\*\*(.*|.*\n)     { count(); BEGIN(INITIAL); }
+
+\/\*              { count(); BEGIN(COMMENTS); }
+<COMMENTS>\*\/    { count(); BEGIN(INITIAL);  }
+<COMMENTS>\n      { count(); }
+<COMMENTS>.       { count(); }
+
+\.f\.             { count(); return CMD_FALSE; }
+\.t\.             { count(); return CMD_TRUE;  }
+
+"=="	{ count(); return CMD_EQ; }
+"!="	{ count(); return CMD_NE; }
+">="	{ count(); return CMD_GE; }
+"<="	{ count(); return CMD_LE; }
+\<	{ count(); return CMD_LW; }
+\>	{ count(); return CMD_GT; }
+
+class             { count(); return CMD_CLASS;     }
+else              { count(); return CMD_ELSE;      }
+endclass          { count(); return CMD_ENDCLASS;  }
+endif             { count(); return CMD_ENDIF;     }
+false             { printf("faslser\n"); count(); return CMD_FALSE;     }
+if                { count(); return CMD_IF;        }
+local             { count(); return CMD_LOCAL;     }
+new               { printf("-ssdsdsds\n");count(); return CMD_NEW;       }
+of                { count(); return CMD_OF;        }
+parameter         { count(); return CMD_PARAMETER; }
+true              { count(); return CMD_TRUE;      }
+
+{NUM}        { count();     Number(); return CMD_NUMBER; }
+{HEXANUMBER} { count(); HexaNumber(); return CMD_NUMBER; }
+
+{ID}  {
+    std::string tmp_id;
+    int pos = 0;
+    int c;
+
+    for (;;) {
+	while ((c = yyinput())
+		!= '.' && c != ' ' && c != '*' && c
+		!= '=' && c != '+' && c != '/' && c
+		!= '(' && c != '-' && c != '&' && c
+		!= EOF)
+	{   if (++pos >= 255) break;
+	    if (((c >= 'a' ) && (c <= 'z'))
+	    || ( (c >= 'A' ) && (c <= 'Z'))
+	    || ( (c >= '0' ) && (c <= '9'))
+	    || (  c == '_')) {
+		tmp_id.append(1,c);
+		continue;
+	    }
+	    break;
+	}
+	if (c == '=' || c == '*' || c == '/' || c == ' '
+	||  c == '(' || c == '+' || c == '-'
+	||  c == '&') {
+printf("------> %d\n",c);
+	    unput(c);
+	    break;
+	}   else
+	if (c == '.') {
+	    tmp_id.append(1,c);
+	    continue;
+	}   else
+	if (c == EOF) {
+	    yyerror("EOF found.\n");
+	    break;
+	}
+    }
+    yylval.val_charp = new char[tmp_id.size()];
+    strcpy(yylval.val_charp,tmp_id.c_str());
+    return CMD_ID;
+}
+
+\(  { count(); return '('; }
+\)  { count(); return ')'; }
+
+[-+*/\,\=] {
+    count();
+    printf("op: %s\n", yytext);
+    return *yytext;
+}
+
+[ \t]*              { count(); }
+[\n]*               { count(); }
+
+<<EOF>>             { return 0; }
+.                   ;
+%%
+
+void Number () {
+    yylval.val_int32 = atol(yytext);
+}
+
+void HexaNumber () {
+    yylval.val_int32 = (unsigned int) strtol(yytext, (char **)NULL, 16);
+}
+
+void count(void)
+{
+    int i;
+    for (i = 0; yytext[i] != '\0'; i++) {
+	    if (yytext[i] == '\n')  { line_col  = 0; ++line_row; } else
+	    if (yytext[i] == '\t')  { line_col += 8;             } else line_col++;
+    }
+}

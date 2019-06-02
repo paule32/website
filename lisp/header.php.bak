@@ -1,0 +1,35 @@
+<div style="height:100%;width:100%;background-color:white;">
+  <div>
+    <div style="float:left;width:84px;height:84px;">
+      <img alt="Lisp Logo" src="/img/lisp.jpeg" style="max-width:100%;max-height:100%;margin:auto;display:block;"></img>
+    </div>
+    <div style="float:right;width:84px;height:84px;display:block;">
+      <img alt="GNU Logo" src="/img/gnu.png" style="max-width:100%;max-height:100%;margin:auto;display:block;"></img>
+    </div>
+    <div style="float-left;height:84px;text-align:center;font-weight:bold;display:block;">
+      <div style="font-size:18pt;">
+        GNU Common LISP - Dokumentation
+      </div>
+      <div style="font-size:12pt;">
+        (c) April, 2019 - KALLUP * non-profit
+      </div>
+    </div>
+  </div>
+  <div>
+    <hr>
+    <?php
+	$flag = false;
+	if (isset($_GET['topic'])) { $topic = $_GET['topic']; $flag = true; }
+    if (isset($_GET['prev'] )) { $prev  = $_GET['prev' ]; $flag = true; }
+	
+	if ($flag == false) {
+		if (!isset($_GET['topic'])) {
+			$path = __DIR__ . '/navbar.php';
+			include $path;
+		} else {
+			$path = __DIR__ . '/' . $topic;
+			include $path;
+		}
+	}?>
+  </div>
+</div>

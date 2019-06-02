@@ -1,0 +1,137 @@
+#sitefooter {
+    position: relative;
+    background-image:url("/img/night.png");
+    background-repeat:no-repeat;
+    background-attachment:scroll;
+    background-size:cover;
+    background-color:black;
+    z-index:1000;
+    bottom:-700px;
+    left:0px;
+    width:100%;
+    height:300px;
+}
+
+#copyright {
+    position:absolute;
+    background-color:blue;
+    font-size:12pt;
+    z-index:1002;
+    color:yellow;
+    bottom:0px;
+    left:0px;
+    width:100%;
+    height:1em;
+}
+#copytext {
+    position:relative;
+    left:200px;
+}
+
+#cookies {
+    position:absolute;
+    background-color:black;
+    font-size: 10pt;
+    z-index:1004;
+    left:0px;
+    height:46px;
+    width:100%;
+    color:white;
+    bottom:0;
+}
+#cookiestr {
+    position: relative;
+    font-size: 10pt;
+    left:40px;
+    top:7px;
+}
+
+#footertext {
+    position:relative;
+    bottom:152px;
+    width:100%;
+    left:0px;
+    height:6em;
+}
+
+.footnavi {
+    position:relative;
+    z-index:1004;
+    bottom:-180px;
+    font-family:"Arial";
+    font-size:11pt;
+    float: left;
+    color:white;
+    margin-left:20px;
+    margin-right:120px;
+    height:20px;
+    text-decoration:none;
+    border-bottom: 1px dotted yellow;
+}
+
+.navi1 {
+    left:100px;
+    width:100px;
+    margin-top:24px;
+    margin-bottom:-20px;
+}
+.navi1email {
+    position:absolute;
+    top:157px;
+    font-weight: bold;
+    color:yellow;
+}
+
+.abo {
+    clear: both;
+    margin-top:24px;
+}
+
+#myscroller {
+    position: absolute;
+    right:10px;
+    height: 60%;
+}
+
+#impressum   { text-decoration:none; padding-left: 20px; padding-right: 20px; color: white; }
+#datenschutz { text-decoration:none; padding-left: 20px; padding-right: 20px; color: white; }
+#agbs        { text-decoration:none; padding-left: 20px; padding-right: 20px; color: white; }
+
+#impressum:hover   { border-bottom: 2px solid yellow; }
+#datenschutz:hover { border-bottom: 2px solid yellow; }
+#agbs:hover        { border-bottom: 2px solid yellow; }
+
+.okButton {
+    position: relative;
+    margin-left:26px;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fff6af;
+	box-shadow:inset 0px 1px 0px 0px #fff6af;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23));
+	background:-moz-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background:-webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+}
+.okButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffec64));
+	background:-webkit-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+.okButton:active {
+	position:relative;
+	top:1px;
+}
+
